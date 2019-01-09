@@ -1,6 +1,7 @@
 from .core import scaffolding
 from .core.scene import Scene
 from .core.gifimage import GIFImage
+from .core.spritestripanimation import SpriteStripAnimation
 import logging
 import pygame
 import os
@@ -16,6 +17,10 @@ class MainScene(Scene):
 
         effect = pygame.mixer.Sound('res/common/wind/wind-looped.wav')
         effect.play(loops=-1)
+
+        knightsStrip = SpriteStripAnimation(
+            'res/common/knight/idle.png', (0, 0, 42, 42), 4, loop=True, frames=game_vars['frames']
+        )
 
         self.display = game_vars['screen']
 
@@ -39,8 +44,13 @@ def initialize_scenes(scenes=[]):
 
 
 def run():
+    FPS = 120
     game_vars = scaffolding.initialize_pygame(screen_mode=(1344, 704))
-    game_vars.update({'music_volume': 0.5})
+    game_vars.update({
+        'music_volume': 0.5,
+        'FPS': FPS,
+        'frames': FPS / 12
+    })
     
     scenes = [MainScene(game_vars=game_vars)]
     

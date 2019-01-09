@@ -13,6 +13,8 @@ class Scene(metaclass=ABCMeta):
         self.on_death = on_death
         self.game_vars = game_vars
 
+    def die():
+        self.alive = False
 
     @abstractmethod
     def on_loop(self):

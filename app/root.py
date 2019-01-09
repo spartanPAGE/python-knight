@@ -19,9 +19,11 @@ class MainScene(Scene):
         self.collected_ms = 0
         self.display = game_vars['screen']
 
+
     def play_ambient_sounds(self):
         for ambient_sound in self.scene_config['ambient sounds']:
             ambient_sound['res'].play(loops=-1)
+
 
     def play_music(self):
         music = self.scene_config['music']
@@ -36,13 +38,21 @@ class MainScene(Scene):
 
         for key in self.scene_config['sprites'].keys():
             sprite = self.scene_config['sprites'][key]
+            dest = sprite['dest'] if 'dest' in sprite else sprite['pos']
             if sprite['type'] == 'sprite_strip_animation':
-                self.display.blit(sprite['res'].next(), dest=sprite['pos'])
+                self.display.blit(sprite['res'].next(), dest=dest)
             elif sprite['type'] == 'text':
-                self.display.blit(sprite['res'], dest=sprite['pos'])
+                self.display.blit(sprite['res'], dest=dest)
 
+
+    def render_transformations(self, ms):
+        for transformation in self.scene_config['render transformations']:
+            sprite = self.scene_config['sprites'][transformation['sprite']]
+            for action in transformation['actions']:
+                exec(action)
 
     def on_loop(self, ms):
+        self.render_transformations(self.collected_ms)
         self.use_config()
         self.collected_ms += ms
 

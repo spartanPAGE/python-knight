@@ -43,5 +43,12 @@
       "path": "res/fonts/joystix monospace.ttf",
       "size": 40
     }
-  }
+  },
+
+  "render transformations": [
+    {
+      "sprite": "start game text",
+      "actions": ["sprite['dest'] = [sprite['pos'][0], sprite['pos'][1] + 4 * math.sin(ms / 500)]"]
+    }
+  ]
 }

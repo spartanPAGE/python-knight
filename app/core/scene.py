@@ -5,6 +5,7 @@ class OnSceneDeath(Enum):
     QUIT=auto()
 
 class Scene:
-    def __init__(self, on_death=OnSceneDeath.POP):
+    def __init__(self, name='UNNAMED', on_death=OnSceneDeath.POP):
         self.alive = True
         self.on_death = on_death
+        self.name = name

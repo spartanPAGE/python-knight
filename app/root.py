@@ -10,8 +10,8 @@ class MainScene(Scene):
     def on_loop(self):
         pass
 
-    def on_event(self):
-        pass
+    def on_event(self, event):
+        logging.info(f'MainScene:on_event: {event}')
         
 
 def initialize_scenes(scenes=[]):

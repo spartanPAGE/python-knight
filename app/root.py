@@ -30,7 +30,7 @@ class MainScene(Scene):
         self.display = game_vars['screen']
 
 
-    def on_loop(self):
+    def on_loop(self, ms):
         knight_image = self.knightStrip.next()
         
         self.background.render(self.display, (0, 0))
@@ -38,6 +38,7 @@ class MainScene(Scene):
         self.display.blit(knight_image, dest=self.knight_pos)
 
         self.display.blit(self.text_image, dest=self.text_pos)
+        print(ms)
         # special_flags=pygame.BLEND_RGBA_SUB
         
 

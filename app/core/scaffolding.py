@@ -32,20 +32,22 @@ def loop(game_vars):
     
     black = Color('black')
     clock = pygame.time.Clock()
+    game_vars['clock'] = clock
     screen = game_vars['screen']
-    
+    ms = 0
     while game_vars['game_running'] and len(game_vars['scenes']) > 0:
         screen.fill(black)
     
         scene = game_vars['scenes'][-1]
-        scene.on_loop()
+        scene.on_loop(ms)
         event_loop(scene, game_vars)
 
         if not scene.alive:
             game_vars['scenes'].pop()
 
         pygame.display.flip()
-        clock.tick(game_vars['FPS'])
+        ms = clock.tick(game_vars['FPS'])
+        game_vars['ms']=ms
 
 
 def initialize_pygame(screen_mode=(640*2, 480*2)):

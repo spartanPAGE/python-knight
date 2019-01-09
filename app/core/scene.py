@@ -17,7 +17,7 @@ class Scene(metaclass=ABCMeta):
         self.alive = False
 
     @abstractmethod
-    def on_loop(self):
+    def on_loop(self, ms):
         pass
 
 

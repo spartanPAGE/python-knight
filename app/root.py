@@ -1,6 +1,7 @@
 from .core import scaffolding
 from .core.scene import Scene
 import logging
+import pygame
 
 class MainScene(Scene):
     def __init__(self, game_vars):
@@ -12,6 +13,9 @@ class MainScene(Scene):
 
     def on_event(self, event):
         logging.info(f'MainScene:on_event: {event}')
+        if event.type == pygame.KEYDOWN:
+            if event.unicode == 'q':
+                self.die()
         
 
 def initialize_scenes(scenes=[]):

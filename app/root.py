@@ -1,14 +1,20 @@
 from .core import scaffolding
 from .core.scene import Scene
+from .core.gifimage import GIFImage
 import logging
 import pygame
+import os
+import sys
 
 class MainScene(Scene):
     def __init__(self, game_vars):
         super().__init__(name='MAIN', game_vars=game_vars)
-
+        self.background = GIFImage('res/scenes/main/background.gif')
+        self.display = game_vars['screen']
 
     def on_loop(self):
+        self.background.render(self.display, (0, 0))
+        pygame.display.flip()
         pass
 
     def on_event(self, event):
@@ -24,7 +30,7 @@ def initialize_scenes(scenes=[]):
 
 
 def run():
-    game_vars = scaffolding.initialize_pygame()
+    game_vars = scaffolding.initialize_pygame(screen_mode=(1344, 704))
     
     scenes = [MainScene(game_vars=game_vars)]
     

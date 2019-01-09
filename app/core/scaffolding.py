@@ -38,15 +38,17 @@ def loop(game_vars):
             game_vars['scenes'].pop()
 
 
-def initialize_pygame():
-    collected_variables = {}
-    funcs = [
-        init_logging,
-        init_pygame,
-        init_screen
+def initialize_pygame(screen_mode=(640*2, 480*2)):
+    collected_variables = {
+        'screen_mode': screen_mode
+    }
+    res = [
+        init_logging(),
+        init_pygame(),
+        init_screen(mode=screen_mode)
     ]
-    for f in funcs:
-        collected_variables.update(f() or {})
+    for r in res:
+        collected_variables.update(r or {})
     return collected_variables
 
 

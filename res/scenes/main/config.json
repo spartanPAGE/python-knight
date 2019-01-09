@@ -1,0 +1,40 @@
+{
+  "music": {
+    "type": "mp3",
+    "path": "res/scenes/main/March of the Templars.mp3",
+    "volume": 0.5
+  },
+
+  "sprites": {
+    "knight": {
+      "type": "sprite_strip_animation",
+      "path": "res/common/knight/idle.png",
+      "rect": [0, 0, 168, 168],
+      "count": 4,
+      "loop": true,
+      "colorkey": -1,
+      "pos": [850, 347]
+    },
+    "start game text": {
+      "type": "text",
+      "font": "joystick monospace",
+      "color": [0, 0, 0],
+      "pos": [286, 152],
+      "text": "Press any key to start..."
+    }
+  },
+
+  "background": {
+    "type": "gif",
+    "path": "res/scenes/main/background.gif",
+    "pos": [0, 0]
+  },
+
+  "fonts": {
+    "joystick monospace": {
+      "type": "ttf",
+      "path": "res/fonts/joystix monospace.ttf",
+      "size": 40
+    }
+  }
+}

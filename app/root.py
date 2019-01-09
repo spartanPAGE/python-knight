@@ -2,14 +2,17 @@ from .core import scaffolding
 from .core.scene import Scene
 from .core.gifimage import GIFImage
 from .core.spritestripanimation import SpriteStripAnimation
+from .core.resloader import load_scene_config
 import logging
 import pygame
 import os
 import sys
+import math
 
 class MainScene(Scene):
     def __init__(self, game_vars):
         super().__init__(name='MAIN', game_vars=game_vars)
+        self.scene_config = load_scene_config('res/scenes/main/config.json', frames=game_vars['frames'])
         self.background = GIFImage('res/scenes/main/background.gif')
         pygame.mixer.music.load('res/scenes/main/March of the Templars.mp3')
         pygame.mixer.music.play(-1)
@@ -18,27 +21,32 @@ class MainScene(Scene):
         effect = pygame.mixer.Sound('res/common/wind/wind-looped.wav')
         effect.play(loops=-1)
 
-        self.knightStrip = SpriteStripAnimation(
-            'res/common/knight/idle.png', (0, 0, 4*42, 4*42), 4, loop=True, frames=game_vars['frames'], colorkey=-1
-        )
-        self.knight_pos = (850, 347)
-
         font = pygame.font.Font('res/fonts/joystix monospace.ttf', 40)
         self.text_image = text = font.render('Press any key to start...', True, (0, 0, 0))
         self.text_pos = (286, 152)
 
+        self.collected_ms = 0
+
         self.display = game_vars['screen']
 
 
-    def on_loop(self, ms):
-        knight_image = self.knightStrip.next()
-        
-        self.background.render(self.display, (0, 0))
-        
-        self.display.blit(knight_image, dest=self.knight_pos)
+    def use_config(self):
+        bg = self.scene_config['background']
+        bg['res'].render(self.display, bg['pos'])
 
-        self.display.blit(self.text_image, dest=self.text_pos)
-        print(ms)
+        for key in self.scene_config['sprites'].keys():
+            sprite = self.scene_config['sprites'][key]
+            if sprite['type'] == 'sprite_strip_animation':
+                self.display.blit(sprite['res'].next(), dest=sprite['pos'])
+            elif sprite['type'] == 'text':
+                self.display.blit(sprite['res'], dest=sprite['pos'])
+
+
+    def on_loop(self, ms):
+        self.use_config()
+        self.collected_ms += ms
+
+        # text_dist = (self.text_pos[0], self.text_pos[1]+6*math.sin(self.collected_ms/1000))
         # special_flags=pygame.BLEND_RGBA_SUB
         
 

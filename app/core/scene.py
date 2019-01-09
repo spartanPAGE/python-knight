@@ -2,6 +2,7 @@ from enum import Enum, auto
 from abc import ABCMeta, abstractmethod
 from .resloader import load_scene_config
 import pygame
+import math
 
 class OnSceneDeath(Enum):
     POP=auto()

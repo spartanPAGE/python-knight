@@ -35,6 +35,11 @@ def load_text(obj, d, **options):
     return d['fonts'][obj['font']]['res'].render(
         obj['text'], True, obj['color']
     )
+
+
+def _load_res(d, loaders, frames, obj):
+    loader_func = loaders[obj['type']]
+    obj['res'] = loader_func(obj, frames=frames, d=d)
     
 
 def load_scene_config(config_path, frames):
@@ -51,26 +56,23 @@ def load_scene_config(config_path, frames):
     
     with open(config_path) as json_data:
         d = json.load(json_data)
+
+        def load_res(obj):
+            _load_res(d, loaders, frames, obj)
+            
         if 'fonts' in d:
             for key in d['fonts'].keys():
-                font = d['fonts'][key];
-                loader_func = loaders[font['type']]
-                font['res'] = loader_func(font)
+                load_res(d['fonts'][key])
             
         if 'background' in d:
-            bg = d['background']
-            loader_func = loaders[bg['type']]
-            bg['res'] = loader_func(bg)
+            load_res(d['background'])
 
         if 'ambient sounds' in d:
             for ambient_sound in d['ambient sounds']:
-                loader_func = loaders[ambient_sound['type']]
-                ambient_sound['res'] = loader_func(ambient_sound)
+                load_res(ambient_sound)
 
         if 'sprites' in d:
             for key in d['sprites'].keys():
-                sprite = d['sprites'][key]
-                loader_func = loaders[sprite['type']]
-                sprite['res'] = loader_func(sprite, frames=frames, d=d)
+                load_res(d['sprites'][key])
             
         return d

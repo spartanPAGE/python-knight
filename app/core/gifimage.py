@@ -1,3 +1,4 @@
+# remember to have your GIFs not RGB, but "indexed" (change in gimp)
 import PIL
 from PIL import Image
 import pygame

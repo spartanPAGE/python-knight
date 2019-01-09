@@ -30,12 +30,12 @@ class MainScene(Scene):
         
         self.background.render(self.display, (0, 0))
         
-        self.display.blit(knight_image, (0,0))
+        self.display.blit(knight_image, dest=(0,0), special_flags=pygame.BLEND_RGBA_ADD)
         pass
 
 
     def on_event(self, event):
-        logging.info(f'MainScene:on_event: {event}')
+        # logging.info(f'MainScene:on_event: {event}')
         if event.type == pygame.KEYDOWN:
             if event.unicode == 'q':
                 self.die()

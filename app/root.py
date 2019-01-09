@@ -27,7 +27,6 @@ class MainScene(Scene):
 
     def on_loop(self):
         self.background.render(self.display, (0, 0))
-        pygame.display.flip()
         pass
 
 

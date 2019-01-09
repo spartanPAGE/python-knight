@@ -29,13 +29,22 @@ def loop(game_vars):
     logging.info('initialized: game loop')
     game_vars['game_running'] = True
     
+    black = Color('black')
+    clock = pygame.time.Clock()
+    
     while game_vars['game_running'] and len(game_vars['scenes']) > 0:
+        surface.fill(black)
+        surface.blit(image, (0,0))
+    
         scene = game_vars['scenes'][-1]
         scene.on_loop()
         event_loop(scene, game_vars)
 
         if not scene.alive:
             game_vars['scenes'].pop()
+
+        pygame.display.flip()
+        clock.tick(FPS)
 
 
 def initialize_pygame(screen_mode=(640*2, 480*2)):

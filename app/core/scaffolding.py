@@ -45,3 +45,4 @@ def initialize_pygame():
 
 def finalize():
     pygame.quit()
+    logging.info('finalized: pygame')

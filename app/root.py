@@ -18,7 +18,7 @@ class MainScene(Scene):
         effect = pygame.mixer.Sound('res/common/wind/wind-looped.wav')
         effect.play(loops=-1)
 
-        knightsStrip = SpriteStripAnimation(
+        self.knightStrip = SpriteStripAnimation(
             'res/common/knight/idle.png', (0, 0, 42, 42), 4, loop=True, frames=game_vars['frames']
         )
 
@@ -26,7 +26,11 @@ class MainScene(Scene):
 
 
     def on_loop(self):
+        knight_image = self.knightStrip.next()
+        
         self.background.render(self.display, (0, 0))
+        
+        self.display.blit(knight_image, (0,0))
         pass
 
 

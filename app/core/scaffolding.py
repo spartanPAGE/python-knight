@@ -1,5 +1,6 @@
 import sys
 import pygame
+from pygame.locals import Color
 import logging
 
 def init_logging(stream=sys.stdout, level=logging.DEBUG, format='%(asctime)s %(message)s'):
@@ -31,10 +32,10 @@ def loop(game_vars):
     
     black = Color('black')
     clock = pygame.time.Clock()
+    screen = game_vars['screen']
     
     while game_vars['game_running'] and len(game_vars['scenes']) > 0:
-        surface.fill(black)
-        surface.blit(image, (0,0))
+        screen.fill(black)
     
         scene = game_vars['scenes'][-1]
         scene.on_loop()
@@ -44,7 +45,7 @@ def loop(game_vars):
             game_vars['scenes'].pop()
 
         pygame.display.flip()
-        clock.tick(FPS)
+        clock.tick(game_vars['FPS'])
 
 
 def initialize_pygame(screen_mode=(640*2, 480*2)):

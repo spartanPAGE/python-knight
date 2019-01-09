@@ -23,6 +23,10 @@ class MainScene(Scene):
         )
         self.knight_pos = (850, 347)
 
+        font = pygame.font.Font('res/fonts/Metamorphous-Regular.ttf', 60)
+        self.text_image = text = font.render('Press any key to start...', True, (0, 0, 0))
+        self.text_pos = (326, 152)
+
         self.display = game_vars['screen']
 
 
@@ -32,6 +36,8 @@ class MainScene(Scene):
         self.background.render(self.display, (0, 0))
         
         self.display.blit(knight_image, dest=self.knight_pos)
+
+        self.display.blit(self.text_image, dest=self.text_pos)
         # special_flags=pygame.BLEND_RGBA_SUB
         
 

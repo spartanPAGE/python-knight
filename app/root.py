@@ -13,21 +13,21 @@ class MainScene(Scene):
     def __init__(self, game_vars):
         super().__init__(name='MAIN', game_vars=game_vars)
         self.scene_config = load_scene_config('res/scenes/main/config.json', frames=game_vars['frames'])
-        self.background = GIFImage('res/scenes/main/background.gif')
-        pygame.mixer.music.load('res/scenes/main/March of the Templars.mp3')
-        pygame.mixer.music.play(-1)
-        pygame.mixer.music.set_volume(game_vars['music_volume'])
-
-        effect = pygame.mixer.Sound('res/common/wind/wind-looped.wav')
-        effect.play(loops=-1)
-
-        font = pygame.font.Font('res/fonts/joystix monospace.ttf', 40)
-        self.text_image = text = font.render('Press any key to start...', True, (0, 0, 0))
-        self.text_pos = (286, 152)
+        self.play_music()
+        self.play_ambient_sounds()
 
         self.collected_ms = 0
-
         self.display = game_vars['screen']
+
+    def play_ambient_sounds(self):
+        for ambient_sound in self.scene_config['ambient sounds']:
+            ambient_sound['res'].play(loops=-1)
+
+    def play_music(self):
+        music = self.scene_config['music']
+        pygame.mixer.music.load(music['path'])
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(music['volume'])
 
 
     def use_config(self):

@@ -5,6 +5,13 @@
     "volume": 0.5
   },
 
+  "ambient sounds": [
+    {
+      "type": "wav",
+      "path": "res/common/wind/wind-looped.wav"
+    }
+  ],
+
   "sprites": {
     "knight": {
       "type": "sprite_strip_animation",

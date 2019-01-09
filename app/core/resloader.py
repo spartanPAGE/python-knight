@@ -23,8 +23,13 @@ def load_mp3(obj, **options):
     pass
 
 
+def load_wav(obj, **options):
+    return pygame.mixer.Sound(obj['path'])
+
+
 def load_font(obj, **options):
     return pygame.font.Font(obj['path'], obj['size'])
+
 
 def load_text(obj, d, **options):
     return d['fonts'][obj['font']]['res'].render(
@@ -38,7 +43,8 @@ def load_scene_config(config_path, frames):
         "sprite_strip_animation": load_sprite_strip_animation,
         "mp3": load_mp3,
         "ttf": load_font,
-        "text": load_text
+        "text": load_text,
+        "wav": load_wav
     }
     
     logging.info(f'loading config: {config_path}')
@@ -55,6 +61,11 @@ def load_scene_config(config_path, frames):
             bg = d['background']
             loader_func = loaders[bg['type']]
             bg['res'] = loader_func(bg)
+
+        if 'ambient sounds' in d:
+            for ambient_sound in d['ambient sounds']:
+                loader_func = loaders[ambient_sound['type']]
+                ambient_sound['res'] = loader_func(ambient_sound)
 
         if 'sprites' in d:
             for key in d['sprites'].keys():

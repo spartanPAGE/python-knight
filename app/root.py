@@ -19,8 +19,9 @@ class MainScene(Scene):
         effect.play(loops=-1)
 
         self.knightStrip = SpriteStripAnimation(
-            'res/common/knight/idle.png', (0, 0, 42, 42), 4, loop=True, frames=game_vars['frames']
+            'res/common/knight/idle.png', (0, 0, 4*42, 4*42), 4, loop=True, frames=game_vars['frames'], colorkey=-1
         )
+        self.knight_pos = (850, 347)
 
         self.display = game_vars['screen']
 
@@ -30,9 +31,9 @@ class MainScene(Scene):
         
         self.background.render(self.display, (0, 0))
         
-        self.display.blit(knight_image, dest=(0,0), special_flags=pygame.BLEND_RGBA_ADD)
-        pass
-
+        self.display.blit(knight_image, dest=self.knight_pos)
+        # special_flags=pygame.BLEND_RGBA_SUB
+        
 
     def on_event(self, event):
         # logging.info(f'MainScene:on_event: {event}')

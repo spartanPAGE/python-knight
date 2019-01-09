@@ -23,9 +23,9 @@ class MainScene(Scene):
         )
         self.knight_pos = (850, 347)
 
-        font = pygame.font.Font('res/fonts/Metamorphous-Regular.ttf', 60)
+        font = pygame.font.Font('res/fonts/joystix monospace.ttf', 40)
         self.text_image = text = font.render('Press any key to start...', True, (0, 0, 0))
-        self.text_pos = (326, 152)
+        self.text_pos = (286, 152)
 
         self.display = game_vars['screen']
 

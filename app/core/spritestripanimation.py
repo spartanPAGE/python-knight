@@ -26,22 +26,27 @@ class SpriteStripAnimation(object):
         self.loop = loop
         self.frames = frames
         self.f = frames
+        self.image = None
     def iter(self):
         self.i = 0
         self.f = self.frames
         return self
+
+    def is_done(self):
+        return self.i >= len(self.images)
+    
     def next(self):
-        if self.i >= len(self.images):
+        if self.is_done():
             if not self.loop:
                 raise StopIteration
             else:
                 self.i = 0
-        image = self.images[self.i]
+        self.image = self.images[self.i]
         self.f -= 1
         if self.f == 0:
             self.i += 1
             self.f = self.frames
-        return image
+        return self.image
     def __add__(self, ss):
         self.images.extend(ss.images)
         return self

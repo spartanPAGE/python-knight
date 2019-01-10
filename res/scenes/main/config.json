@@ -16,7 +16,7 @@
     "knight": {
       "pos": [850, 347],
       "alive": true,
-      "states_stack": ["knight death", "knight idle"]
+      "states_stack": ["knight die", "knight idle"]
     }
   },
 
@@ -37,6 +37,15 @@
       "rect": [0, 0, 168, 168],
       "count": 4,
       "loop": true,
+      "colorkey": -1,
+      "frames": 20
+    },
+    "knight die": {
+      "type": "entity_sprite_strip_animation",
+      "path": "res/common/knight/die.png",
+      "rect": [0, 0, 168, 168],
+      "count": 9,
+      "loop": false,
       "colorkey": -1,
       "frames": 20
     },

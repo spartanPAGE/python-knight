@@ -1,6 +1,7 @@
 from enum import Enum, auto
 from abc import ABCMeta, abstractmethod
 from .resloader import load_scene_config
+from .entity import Entity
 import pygame
 import math
 
@@ -12,7 +13,10 @@ class OnSceneDeath(Enum):
 def render_obj(obj, dest, display):
     if obj['type'] == 'sprite_strip_animation' \
     or obj['type'] == 'entity_sprite_strip_animation':
-        display.blit(obj['res'].next(), dest=dest)
+        image = obj['res'].image if obj['res'].is_done() else obj['res'].next()
+        display.blit(image or obj['res'], dest=dest)
+        if obj['res'].is_done():
+            return StopIteration
     elif obj['type'] == 'text':
         display.blit(obj['res'], dest=dest)
     elif obj['type'] == 'gif':
@@ -31,6 +35,9 @@ class Scene(metaclass=ABCMeta):
         self.play_ambient_sounds()
         self.display = game_vars['screen']
         self.collected_ms = 0
+
+    def entity(self, name):
+        return Entity(self.scene_config, name)
 
     def _render_obj(self, obj, dest):
         render_obj(obj, dest, self.display)
@@ -65,19 +72,14 @@ class Scene(metaclass=ABCMeta):
     def render_entities(self):
         for key in self.scene_config['entities'].keys():
             entity = self.scene_config['entities'][key]
-            if not entity['alive']:
-                continue
             states_stack = entity['states_stack']
-            try:
-                sprite = self.scene_config['sprites'][states_stack[-1]]
-                self._render_obj(sprite, entity['pos'])
-            except StopIteration:
+            sprite = self.scene_config['sprites'][states_stack[-1]]
+            if self._render_obj(sprite, entity['pos']) == StopIteration \
+            and 'alive' in entity \
+            and entity['alive']:
                 sprite_name = states_stack.pop()
                 sprite = self.scene_config['sprites'][sprite_name]
-                if 'final' in sprite and sprite['final'] == True:
-                    pass
-                else:
-                    sprite['res'].iter()
+                sprite['res'].iter()
 
     def use_config(self):
         self.render_bg()

@@ -1,18 +1,13 @@
 from .core import scaffolding
 from .core.scene import Scene
-from .core.gifimage import GIFImage
-from .core.spritestripanimation import SpriteStripAnimation
-from .core.resloader import load_scene_config
+from .core.entity import Entity
 import logging
 import pygame
-import os
-import sys
-import math
 
 class MainScene(Scene):
     def __init__(self, game_vars):
         super().__init__(name='MAIN', config_path='res/scenes/main/config.json', game_vars=game_vars)
-
+        self.knight = self.entity('knight')
 
     def on_loop(self, ms):
         super().on_loop(ms)
@@ -23,8 +18,11 @@ class MainScene(Scene):
             if event.unicode == 'q':
                 self.die()
 
-            if event.unicode == ' ':
-                self.scene_config['entities']['knight']['states_stack'].append('knight attack')
+            if event.unicode == ' ' and self.knight.is_alive():
+                self.knight.push_state('knight attack')
+
+            if event.unicode == 'k':
+                self.knight.die()
 
         
 def initialize_scenes(scenes=[]):

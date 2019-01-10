@@ -23,6 +23,9 @@ class MainScene(Scene):
             if event.unicode == 'q':
                 self.die()
 
+            if event.unicode == ' ':
+                self.scene_config['entities']['knight']['states_stack'].append('knight attack')
+
         
 def initialize_scenes(scenes=[]):
     logging.info(f'initialized: scenes {[scene.name for scene in scenes]}')

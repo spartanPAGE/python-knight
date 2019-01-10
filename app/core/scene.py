@@ -9,6 +9,17 @@ class OnSceneDeath(Enum):
     QUIT=auto()
 
 
+def render_obj(obj, dest, display):
+    if obj['type'] == 'sprite_strip_animation' \
+    or obj['type'] == 'entity_sprite_strip_animation':
+        display.blit(obj['res'].next(), dest=dest)
+    elif obj['type'] == 'text':
+        display.blit(obj['res'], dest=dest)
+    elif obj['type'] == 'gif':
+        obj['res'].render(display, dest)
+        
+
+
 class Scene(metaclass=ABCMeta):
     def __init__(self, name='UNNAMED', on_death=OnSceneDeath.POP, game_vars={}, config_path=None):
         self.alive = True
@@ -21,6 +32,8 @@ class Scene(metaclass=ABCMeta):
         self.display = game_vars['screen']
         self.collected_ms = 0
 
+    def _render_obj(self, obj, dest):
+        render_obj(obj, dest, self.display)
 
     def play_ambient_sounds(self):
         for ambient_sound in self.scene_config['ambient sounds']:
@@ -33,18 +46,43 @@ class Scene(metaclass=ABCMeta):
         pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(music['volume'])
 
-
-    def use_config(self):
+    def render_bg(self):
         bg = self.scene_config['background']
-        bg['res'].render(self.display, bg['pos'])
-
+        self._render_obj(bg, bg['pos'])
+        
+    def render_sprites(self):
         for key in self.scene_config['sprites'].keys():
             sprite = self.scene_config['sprites'][key]
+
+            if 'omit' in sprite \
+            and sprite['omit'] == True \
+            or sprite['type'] == 'entity_sprite_strip_animation':
+                continue
+                
             dest = sprite['dest'] if 'dest' in sprite else sprite['pos']
-            if sprite['type'] == 'sprite_strip_animation':
-                self.display.blit(sprite['res'].next(), dest=dest)
-            elif sprite['type'] == 'text':
-                self.display.blit(sprite['res'], dest=dest)
+            self._render_obj(sprite, dest)
+
+    def render_entities(self):
+        for key in self.scene_config['entities'].keys():
+            entity = self.scene_config['entities'][key]
+            if not entity['alive']:
+                continue
+            states_stack = entity['states_stack']
+            try:
+                sprite = self.scene_config['sprites'][states_stack[-1]]
+                self._render_obj(sprite, entity['pos'])
+            except StopIteration:
+                sprite_name = states_stack.pop()
+                sprite = self.scene_config['sprites'][sprite_name]
+                if 'final' in sprite and sprite['final'] == True:
+                    pass
+                else:
+                    sprite['res'].iter()
+
+    def use_config(self):
+        self.render_bg()
+        self.render_sprites()
+        self.render_entities()
 
 
     def render_transformations(self, ms):

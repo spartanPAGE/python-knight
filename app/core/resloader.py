@@ -15,7 +15,7 @@ def load_gif(obj, **options):
 def load_sprite_strip_animation(obj, frames, **options):
     return SpriteStripAnimation(
         filename=obj['path'], rect=obj['rect'], count=obj['count'],
-        loop=obj['loop'], frames=frames, colorkey=obj['colorkey']
+        loop=obj['loop'], frames=obj['frames'] or frames, colorkey=obj['colorkey']
     )
 
 
@@ -46,6 +46,7 @@ def load_scene_config(config_path, frames):
     loaders = {
         "gif": load_gif,
         "sprite_strip_animation": load_sprite_strip_animation,
+        "entity_sprite_strip_animation": load_sprite_strip_animation,
         "mp3": load_mp3,
         "ttf": load_font,
         "text": load_text,

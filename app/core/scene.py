@@ -11,12 +11,11 @@ class OnSceneDeath(Enum):
 
 
 def render_obj(obj, dest, display):
-    if obj['type'] == 'sprite_strip_animation' \
+    if type(obj) is pygame.Surface:
+        display.blit(obj, dest=dest)
+    elif obj['type'] == 'sprite_strip_animation' \
     or obj['type'] == 'entity_sprite_strip_animation':
-        image = obj['res'].image if obj['res'].is_done() else obj['res'].next()
-        display.blit(image or obj['res'], dest=dest)
-        if obj['res'].is_done():
-            return StopIteration
+        display.blit(obj['res'].next(), dest=dest)
     elif obj['type'] == 'text':
         display.blit(obj['res'], dest=dest)
     elif obj['type'] == 'gif':
@@ -73,13 +72,18 @@ class Scene(metaclass=ABCMeta):
         for key in self.scene_config['entities'].keys():
             entity = self.scene_config['entities'][key]
             states_stack = entity['states_stack']
-            sprite = self.scene_config['sprites'][states_stack[-1]]
-            if self._render_obj(sprite, entity['pos']) == StopIteration \
-            and 'alive' in entity \
-            and entity['alive']:
-                sprite_name = states_stack.pop()
-                sprite = self.scene_config['sprites'][sprite_name]
-                sprite['res'].iter()
+            try:
+                sprite = self.scene_config['sprites'][states_stack[-1]]
+                self._render_obj(sprite, entity['pos'])
+            except StopIteration:
+                if entity['alive']:
+                    sprite_name = states_stack.pop()
+                    sprite = self.scene_config['sprites'][sprite_name]
+                    sprite['res'].iter()
+                else:
+                    state = entity['states_stack'][0]
+                    sprite = self.scene_config['sprites'][state]
+                    self._render_obj(sprite['res'].images[-1], entity['pos'])
 
     def use_config(self):
         self.render_bg()

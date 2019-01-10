@@ -41,12 +41,12 @@ class SpriteStripAnimation(object):
                 raise StopIteration
             else:
                 self.i = 0
-        self.image = self.images[self.i]
+        image = self.images[self.i]
         self.f -= 1
         if self.f == 0:
             self.i += 1
             self.f = self.frames
-        return self.image
+        return image
     def __add__(self, ss):
         self.images.extend(ss.images)
         return self

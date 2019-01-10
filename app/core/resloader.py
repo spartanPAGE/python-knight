@@ -24,7 +24,10 @@ def load_mp3(obj, **options):
 
 
 def load_wav(obj, **options):
-    return pygame.mixer.Sound(obj['path'])
+    sound = pygame.mixer.Sound(obj['path'])
+    if 'volume' in obj:
+        sound.set_volume(obj['volume'])
+    return sound
 
 
 def load_font(obj, **options):
@@ -72,6 +75,10 @@ def load_scene_config(config_path, frames):
             for ambient_sound in d['ambient sounds']:
                 load_res(ambient_sound)
 
+        if 'sounds' in d:
+            for key in d['sounds']:
+                load_res(d['sounds'][key])
+                
         if 'sprites' in d:
             for key in d['sprites'].keys():
                 load_res(d['sprites'][key])

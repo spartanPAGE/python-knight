@@ -15,21 +15,38 @@ class MainScene(Scene):
 
     def on_loop(self, ms):
         super().on_loop(ms)
+
+
+    def knight_block_states(self):
+        return ['knight block hold', 'knight block']
+
+    def knight_busy_states(self):
+        return self.knight_block_states() + ['knight attack']
         
 
     def on_event(self, event):
         if event.type == pygame.KEYDOWN:
-            if event.unicode == 'q':
+            if event.key == pygame.K_q:
                 self.die()
 
-            if event.unicode == 'k':
+            if event.key == pygame.K_k:
                 self.knight.die()
 
-            if event.unicode == ' ':
-                self.knight.push_state_if_alive('knight attack')
+            if not self.knight.state() in self.knight_busy_states():
+                
+                if event.key == pygame.K_SPACE:
+                    self.knight.push_state_if_alive('knight attack')
 
-            if event.unicode == 'a':
-                self.knight.push_state_if_alive('knight block')
+                if event.key == pygame.K_a:
+                    [self.knight.push_state_if_alive(state)
+                     for state in self.knight_block_states()]
+
+        if event.type == pygame.KEYUP:
+            
+            if event.key == pygame.K_a:
+                while self.knight.state() in self.knight_block_states():
+                    self.knight.pop_state()
+                
 
         
 def initialize_scenes(scenes=[]):

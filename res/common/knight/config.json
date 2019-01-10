@@ -1,4 +1,19 @@
 {
+  "sounds": {
+    "knight swing": {
+      "type": "wav",
+      "path": "res/common/knight/swing.wav"
+    },
+    "knight block": {
+      "type": "wav",
+      "path": "res/common/knight/block.wav",
+      "volume": 1.0
+    },
+    "knight die": {
+      "type": "wav",
+      "path": "res/common/knight/die.wav"
+    }
+  },
   "sprites": {
     "knight attack": {
       "type": "entity_sprite_strip_animation",
@@ -7,7 +22,8 @@
       "count": 10,
       "loop": false,
       "colorkey": -1,
-      "frames": 10
+      "frames": 9,
+      "sound": "knight swing"
     },
     "knight block": {
       "type": "entity_sprite_strip_animation",
@@ -16,7 +32,17 @@
       "count": 7,
       "loop": false,
       "colorkey": -1,
-      "frames": 10
+      "frames": 7,
+      "sound": "knight block"
+    },
+    "knight block hold": {
+      "type": "entity_sprite_strip_animation",
+      "path": "res/common/knight/block hold.png",
+      "rect": [0, 0, 168, 168],
+      "count": 7,
+      "loop": true,
+      "colorkey": -1,
+      "frames": 20
     },
     "knight idle": {
       "type": "entity_sprite_strip_animation",
@@ -34,7 +60,8 @@
       "count": 9,
       "loop": false,
       "colorkey": -1,
-      "frames": 20
+      "frames": 30,
+      "sound": "knight die"
     }
   }
 }

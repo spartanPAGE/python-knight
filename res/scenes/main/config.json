@@ -2,7 +2,7 @@
   "music": {
     "type": "mp3",
     "path": "res/scenes/main/March of the Templars.mp3",
-    "volume": 0.5
+    "volume": 0.3
   },
 
   "ambient sounds": [

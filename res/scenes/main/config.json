@@ -12,6 +12,13 @@
     }
   ],
 
+  "sounds": {
+    "horror impact": {
+      "type": "wav",
+      "path": "res/common/misc/horror impact.wav"
+    }
+  },
+
   "entities": {
     "knight": {
       "pos": [850, 347],

@@ -98,7 +98,13 @@ class Scene(metaclass=ABCMeta):
             states_stack = entity['states_stack']
             try:
                 sprite = self.scene_config['sprites'][states_stack[-1]]
-                self._render_obj(sprite, entity['pos'])
+                pos = entity['pos']
+                dest = [pos[0], pos[1]]
+                if 'align' in entity and 'middledown' in entity['align']:
+                    sprite_size = sprite['res'].get_size()
+                    dest[0] -= sprite_size[0]/2
+                    dest[1] -= sprite_size[1]
+                self._render_obj(sprite, dest)
             except StopIteration:
                 if entity['alive']:
                     sprite_name = states_stack.pop()
@@ -117,6 +123,9 @@ class Scene(metaclass=ABCMeta):
 
 
     def render_transformations(self, ms):
+        if not 'render transformations' in self.scene_config:
+            return
+        
         for transformation in self.scene_config['render transformations']:
             sprite = self.scene_config['sprites'][transformation['sprite']]
             for action in transformation['actions']:

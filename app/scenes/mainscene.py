@@ -2,6 +2,7 @@ from app.core import scaffolding
 from app.core.scene import Scene
 from app.core.entity import Entity
 from app.core.scenefade import FadeWithGravityBlocks
+from app.scenes.firstscene import FirstScene
 import logging
 import pygame
 
@@ -23,8 +24,14 @@ class MainScene(Scene):
         super().on_loop(ms)
         if self.game_started:
             self.fade_down_counter -= ms
+            
             if self.fade_down_counter < 0:
                 self.fade.tick(ms, self.display)
+
+                if self.fade.is_done():
+                    scenes = self.game_vars['scenes']
+                    scenes.pop()
+                    scenes.append(FirstScene(game_vars=self.game_vars))
 
 
     def knight_block_states(self):

@@ -22,11 +22,16 @@ class SpriteStripAnimation(object):
         self.filename = filename
         ss = SpriteSheet(filename)
         self.images = ss.load_strip(rect, count, colorkey)
+        self._size = (rect[2], rect[3])
         self.i = 0
         self.loop = loop
         self.frames = frames
         self.f = frames
         self.image = None
+
+    def get_size(self):
+        return self._size
+    
     def iter(self):
         self.i = 0
         self.f = self.frames

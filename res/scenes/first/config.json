@@ -1,0 +1,31 @@
+{
+  "music": {
+    "type": "mp3",
+    "path": "res/scenes/main/March of the Templars.mp3",
+    "volume": 0.3
+  },
+
+  "ambient sounds": [
+    {
+      "type": "wav",
+      "path": "res/common/wind/wind-looped.wav"
+    }
+  ],
+
+  "entities": {
+    "knight": {
+      "pos": [100, 620],
+      "align": ["middledown"],
+      "alive": true,
+      "states_stack": ["knight die", "knight idle"]
+    }
+  },
+
+  "background": {
+    "type": "gif",
+    "path": "res/scenes/first/background.gif",
+    "pos": [-100, -120]
+  },
+
+  "borders": [0, 593, 1344, 49]
+}

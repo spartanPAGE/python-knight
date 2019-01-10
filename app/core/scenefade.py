@@ -17,9 +17,13 @@ class GravityBlock:
         rect = (self.x, 0, self.width, self.height)
         pygame.draw.rect(display, color, rect)
 
+    def is_done(self, dest_height):
+        return self.height >= dest_height
+
         
 class FadeWithGravityBlocks:
     def __init__(self, width, height, count=200):
+        self.screen_height = height
         sections = list(sorted([random.randint(0, width) for i in range(count-1)] + [width]))
         self.blocks = []
         prev = 0
@@ -31,3 +35,10 @@ class FadeWithGravityBlocks:
         for block in self.blocks:
             block.tick(ms)
             block.render(display)
+
+    def is_done(self):
+        return len(self.blocks) == \
+               sum([
+                   block.is_done(self.screen_height)
+                    for block in self.blocks
+                   ])

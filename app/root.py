@@ -18,11 +18,14 @@ class MainScene(Scene):
             if event.unicode == 'q':
                 self.die()
 
-            if event.unicode == ' ' and self.knight.is_alive():
-                self.knight.push_state('knight attack')
-
             if event.unicode == 'k':
                 self.knight.die()
+
+            if event.unicode == ' ':
+                self.knight.push_if_alive_state('knight attack')
+
+            if event.unicode == 'a':
+                self.knight.push_if_alive_state('knight block')
 
         
 def initialize_scenes(scenes=[]):

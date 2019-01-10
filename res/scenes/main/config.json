@@ -31,6 +31,15 @@
       "pos": [850, 347],
       "frames": 10
     },
+    "knight block": {
+      "type": "entity_sprite_strip_animation",
+      "path": "res/common/knight/block.png",
+      "rect": [0, 0, 168, 168],
+      "count": 7,
+      "loop": false,
+      "colorkey": -1,
+      "frames": 10
+    },
     "knight idle": {
       "type": "entity_sprite_strip_animation",
       "path": "res/common/knight/idle.png",

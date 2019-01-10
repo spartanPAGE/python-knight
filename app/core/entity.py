@@ -28,5 +28,10 @@ class Entity:
         self.internal['states_stack'].append(state)
 
 
+    def push_if_alive(self, state):
+        if self.is_alive():
+            self.push_state(state)
+
+
     def pop_state(self):
         return self.internal['states_stack'].pop()

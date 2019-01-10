@@ -28,7 +28,7 @@ class Entity:
         self.internal['states_stack'].append(state)
 
 
-    def push_if_alive(self, state):
+    def push_state_if_alive(self, state):
         if self.is_alive():
             self.push_state(state)
 

@@ -22,10 +22,10 @@ class MainScene(Scene):
                 self.knight.die()
 
             if event.unicode == ' ':
-                self.knight.push_if_alive_state('knight attack')
+                self.knight.push_state_if_alive('knight attack')
 
             if event.unicode == 'a':
-                self.knight.push_if_alive_state('knight block')
+                self.knight.push_state_if_alive('knight block')
 
         
 def initialize_scenes(scenes=[]):

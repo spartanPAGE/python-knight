@@ -10,6 +10,22 @@ class OnSceneDeath(Enum):
     QUIT=auto()
 
 
+def mergedicts(dict1, dict2):
+    for k in set(dict1.keys()).union(dict2.keys()):
+        if k in dict1 and k in dict2:
+            if isinstance(dict1[k], dict) and isinstance(dict2[k], dict):
+                yield (k, dict(mergedicts(dict1[k], dict2[k])))
+            else:
+                # If one of the values is not a dict, you can't continue merging it.
+                # Value from second dict overrides one in first and we move on.
+                yield (k, dict2[k])
+                # Alternatively, replace this with exception raiser to alert you of value conflicts
+        elif k in dict1:
+            yield (k, dict1[k])
+        else:
+            yield (k, dict2[k])
+
+
 def render_obj(obj, dest, display):
     if type(obj) is pygame.Surface:
         display.blit(obj, dest=dest)
@@ -22,24 +38,30 @@ def render_obj(obj, dest, display):
         obj['res'].render(display, dest)
         
 
-
 class Scene(metaclass=ABCMeta):
-    def __init__(self, name='UNNAMED', on_death=OnSceneDeath.POP, game_vars={}, config_path=None):
+    def __init__(self, name='UNNAMED', on_death=OnSceneDeath.POP, game_vars={}, configs=None):
         self.alive = True
         self.name = name
         self.on_death = on_death
         self.game_vars = game_vars
-        self.scene_config = load_scene_config(config_path, frames=game_vars['frames'])
-        self.play_music()
-        self.play_ambient_sounds()
         self.display = game_vars['screen']
         self.collected_ms = 0
+        
+        self.scene_config = {}
+        for config_path in configs:
+            self.scene_config = dict(mergedicts(self.scene_config, load_scene_config(config_path, frames=game_vars['frames'])))
+            
+        self.play_music()
+        self.play_ambient_sounds()
+
 
     def entity(self, name):
         return Entity(self.scene_config, name)
 
+
     def _render_obj(self, obj, dest):
         render_obj(obj, dest, self.display)
+
 
     def play_ambient_sounds(self):
         for ambient_sound in self.scene_config['ambient sounds']:
@@ -55,6 +77,7 @@ class Scene(metaclass=ABCMeta):
     def render_bg(self):
         bg = self.scene_config['background']
         self._render_obj(bg, bg['pos'])
+
         
     def render_sprites(self):
         for key in self.scene_config['sprites'].keys():
@@ -67,6 +90,7 @@ class Scene(metaclass=ABCMeta):
                 
             dest = sprite['dest'] if 'dest' in sprite else sprite['pos']
             self._render_obj(sprite, dest)
+
 
     def render_entities(self):
         for key in self.scene_config['entities'].keys():
@@ -84,6 +108,7 @@ class Scene(metaclass=ABCMeta):
                     state = entity['states_stack'][0]
                     sprite = self.scene_config['sprites'][state]
                     self._render_obj(sprite['res'].images[-1], entity['pos'])
+
 
     def use_config(self):
         self.render_bg()

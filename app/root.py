@@ -6,7 +6,11 @@ import pygame
 
 class MainScene(Scene):
     def __init__(self, game_vars):
-        super().__init__(name='MAIN', config_path='res/scenes/main/config.json', game_vars=game_vars)
+        configs = [
+            'res/scenes/main/config.json',
+            'res/common/knight/config.json'
+        ]
+        super().__init__(name='MAIN', configs=configs, game_vars=game_vars)
         self.knight = self.entity('knight')
 
     def on_loop(self, ms):

@@ -21,42 +21,6 @@
   },
 
   "sprites": {
-    "knight attack": {
-      "type": "entity_sprite_strip_animation",
-      "path": "res/common/knight/attack.png",
-      "rect": [0, 0, 320, 192],
-      "count": 10,
-      "loop": false,
-      "colorkey": -1,
-      "frames": 10
-    },
-    "knight block": {
-      "type": "entity_sprite_strip_animation",
-      "path": "res/common/knight/block.png",
-      "rect": [0, 0, 168, 168],
-      "count": 7,
-      "loop": false,
-      "colorkey": -1,
-      "frames": 10
-    },
-    "knight idle": {
-      "type": "entity_sprite_strip_animation",
-      "path": "res/common/knight/idle.png",
-      "rect": [0, 0, 168, 168],
-      "count": 4,
-      "loop": true,
-      "colorkey": -1,
-      "frames": 20
-    },
-    "knight die": {
-      "type": "entity_sprite_strip_animation",
-      "path": "res/common/knight/die.png",
-      "rect": [0, 0, 168, 168],
-      "count": 9,
-      "loop": false,
-      "colorkey": -1,
-      "frames": 20
-    },
     "start game text": {
       "type": "text",
       "font": "joystick monospace",

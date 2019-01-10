@@ -37,7 +37,7 @@ class MainScene(Scene):
 
     def on_event(self, event):
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
+            if event.key == pygame.K_RETURN and not self.game_started:
                 self.start_game()
                 
             if event.key == pygame.K_q:

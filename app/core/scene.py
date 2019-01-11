@@ -92,24 +92,31 @@ class Scene(metaclass=ABCMeta):
             self._render_obj(sprite, dest)
 
 
+    def _offset_dest(self, sprite, dest):
+        if 'offset' in sprite:
+            offset = sprite['offset']
+            dest[0] += offset[0]
+            dest[1] += offset[1]
+
+
+
+    def _align_dest(self, entity, size, dest):
+       if 'align' in entity and 'middledown' in entity['align']:
+            dest[0] -= size[0]/2
+            dest[1] -= size[1]
+        
+
     def render_entities(self):
         for key in self.scene_config['entities'].keys():
             entity = self.scene_config['entities'][key]
             states_stack = entity['states_stack']
             try:
                 sprite = self.scene_config['sprites'][states_stack[-1]]
-                pos = entity['pos']
-                dest = [pos[0], pos[1]]
-                if 'align' in entity and 'middledown' in entity['align']:
-                    sprite_size = sprite['res'].get_size()
-                    dest[0] -= sprite_size[0]/2
-                    dest[1] -= sprite_size[1]
-                if 'offset' in sprite:
-                    offset = sprite['offset']
-                    print(offset)
-                    dest[0] += offset[0]
-                    dest[1] += offset[1]
+                dest = list(entity['pos'])
+                self._align_dest(entity, sprite['res'].get_size(), dest)
+                self._offset_dest(sprite, dest)
                 self._render_obj(sprite, dest)
+                            
             except StopIteration:
                 if entity['alive']:
                     sprite_name = states_stack.pop()
@@ -118,7 +125,10 @@ class Scene(metaclass=ABCMeta):
                 else:
                     state = entity['states_stack'][0]
                     sprite = self.scene_config['sprites'][state]
-                    self._render_obj(sprite['res'].images[-1], entity['pos'])
+                    dest = list(entity['pos'])
+                    self._align_dest(entity, sprite['res'].get_size(), dest)
+                    self._offset_dest(sprite, dest)
+                    self._render_obj(sprite['res'].images[-1], dest)
 
 
     def use_config(self):

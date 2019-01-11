@@ -19,6 +19,7 @@
       "type": "entity_sprite_strip_animation",
       "path": "res/common/knight/attack.png",
       "rect": [0, 0, 320, 192],
+      "offset": [80, 15],
       "count": 10,
       "loop": false,
       "colorkey": -1,
@@ -43,6 +44,15 @@
       "loop": true,
       "colorkey": -1,
       "frames": 20
+    },
+    "knight walk": {
+      "type": "entity_sprite_strip_animation",
+      "path": "res/common/knight/walk.png",
+      "rect": [0, 0, 168, 168],
+      "count": 8,
+      "loop": true,
+      "colorkey": -1,
+      "frames": 13
     },
     "knight idle": {
       "type": "entity_sprite_strip_animation",

@@ -104,6 +104,11 @@ class Scene(metaclass=ABCMeta):
                     sprite_size = sprite['res'].get_size()
                     dest[0] -= sprite_size[0]/2
                     dest[1] -= sprite_size[1]
+                if 'offset' in sprite:
+                    offset = sprite['offset']
+                    print(offset)
+                    dest[0] += offset[0]
+                    dest[1] += offset[1]
                 self._render_obj(sprite, dest)
             except StopIteration:
                 if entity['alive']:

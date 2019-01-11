@@ -17,7 +17,8 @@
       "pos": [100, 620],
       "align": ["middledown"],
       "alive": true,
-      "states_stack": ["knight die", "knight idle"]
+      "states_stack": ["knight die", "knight idle"],
+      "speed": [7, 2]
     }
   },
 

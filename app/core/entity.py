@@ -25,13 +25,17 @@ class Entity:
             self.pop_state()
         self.play_sound_if_associated_with_state(self.state())
 
+
+    def remove_state(self, state):
+        return self._states_stack().remove(state)
+
     def state(self):
         states = self._states_stack()
         return states[-1] if len(states) > 0 else None
 
 
     def push_state(self, state):
-        self.internal['states_stack'].append(state)
+        self._states_stack().append(state)
         self.play_sound_if_associated_with_state(state)
 
 
